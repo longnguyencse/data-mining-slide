@@ -161,14 +161,14 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Ứng dụng}
-\begin{frame}{Ứng dụng phân loại hình ảnh}
-\begin{block} {Examples of visual words}
-	\begin{center}
-		\includegraphics[scale=0.4]{images/demo1.png}
-	\end{center}
-\end{block}
-\end{frame}
+%\section{Ứng dụng}
+%\begin{frame}{Ứng dụng phân loại hình ảnh}
+%\begin{block} {Examples of visual words}
+%	\begin{center}
+%		\includegraphics[scale=0.4]{images/demo1.png}
+%	\end{center}
+%\end{block}
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Điểm mạnh và điểm yếu}
@@ -179,14 +179,15 @@
 		\item Đơn giản: Dễ dàng hiểu và thực thi
 		\item Rất hiệu quả: Độ phức tạp chỉ là O(tkn), trong đó: 
 			\begin{itemize}
-				\item k là số cụm
-				\item t là số lần lặp
+				\item n là số lượng điểm dữ liệu (data point)
+				\item k là số cụm (cluster)
+				\item t là số lần lặp cho đến khi hội tụ
 			\end{itemize}
-		Vì k và t đều nhỏ nên giải thuật K-mean thuộc giải thuật tuyến tính
+		Vì k và t đều nhỏ nên giải thuật K-mean là thuật toán có độ phức tạp tuyến tính
 	\end{itemize}
 	
 \end{block}
-	K-means là một giải thuật phân cụm phổ biến
+	k-means là giải thuật phổ biến.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,17 +195,12 @@
 \begin{frame}{Điểm mạnh và điểm yếu}
 \begin{block} {Điểm yếu}
 	\begin{itemize}
-		\item Người phân tích dữ liệu phải chỉ định số cluster K
-		\item Rất hiệu quả: Độ phức tạp chỉ là O(tkn), trong đó: 
-		\begin{itemize}
-			\item k là số cụm
-			\item t là số lần lặp
-		\end{itemize}
-		Vì k và t đều nhỏ nên giải thuật K-mean thuộc giải thuật tuyến tính
-		\item Giải thuật rất dễ sai với các điểm nhiễu \alert{$outliers$}
+		\item Thuật toán chỉ áp dụng được khi các giá trị trung bình được xác định.
+		\item Phải xác định số lượng cụm (cluster)
+		\item Giải thuật bị ảnh hưởng bởi các điểm \alert{$outliers$}
 			\begin{itemize}
-			\item Outlier là những điểm dữ liệu quá xa so với các điểm dữ liệu còn lại.
-			\item Outlier có thể xảy ra khi xảy ra lỗi khi ghi dữ liệu hoặc một số điểm dữ liệu đặc biệt với các giá trị rất khác nhau.
+			\item Outliers là những điểm dữ liệu ở quá xa so với các điểm dữ liệu khác.
+			\item Outliers tồn tại do lỗi trong quá trình ghi dữ liệu hoặc một số điểm dữ liệu đặc biệt có các giá trị rất khác nhau.
 			\end{itemize}
 	\end{itemize}
 \end{block}
@@ -223,13 +219,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Giải quyết Outlier}
 \begin{itemize}
-	\item Xóa một số điểm dữ liệu ở rất xa centroid so với đa số các điểm dữ liệu khác
+	\item Xóa các điểm dữ liệu ở xa centroid so với các điểm dữ liệu khác.
 	 	\begin{itemize}
-	 		\item Để an toàn, chúng ta có thể theo dõi những điểm oulier này một vài lần lặp rồi mới quyết định loại bỏ chúng hay không.
+	 		\item Để đảm bảo an toàn, chúng ta có thể theo dõi các điểm này qua vài lần lặp trước khi quyết loại bỏ.
 	 	\end{itemize}
-	\item Thực hiện lấy mẫu ngẫu nhiên: bằng cách chọn một tập hợp con cảu các điểm dữ liệu , cơ hội lựa chọn một outlier là nhỏ hơn nhiều.
+	\item Một cách khác, bằng cách lấy mẫu ngẫu nhiên: Vì trong khi lấy mẫu, chúng ta chỉ chọn tập hợp con của các điểm dữ liệu, nên rất ít khả năng chọn trúng điểm outlier.
 		\begin{itemize}
-			\item Gán những phần còn lại của các điểm dữ liệu cho các cluster bằng khoảng cách
+			\item Gán những điểm dữ liệu còn lại cho các clusters theo khoảng cách hoặc phân lớp.
 		\end{itemize}
 \end{itemize}
 \end{frame}
@@ -246,7 +242,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Điểm yếu}
 \begin{block} {Cấu trúc dữ liệu đặc biệt}
-	Giải thuật K-means không phù hợp cho xác định các cụm mà hình không phải là hình elip hay hình cầu
+	Thuật toán k-means không phù hợp để khai thác các cluster không phải là hyper - ellipsoids (hyper-spheres)
 	\begin{center}
 		\includegraphics[scale=0.4]{images/spec_data.png}
 	\end{center}
@@ -264,6 +260,13 @@
 \end{block}
 \end{frame}
 
-
+\section{Tham khảo}
+\begin{frame}{Tham khảo}
+	\begin{enumerate}
+		\item \href{http://www.mit.edu/~9.54/fall14/slides/Class13.pdf}{http://www.mit.edu/~9.54/fall14/slides/Class13.pdf}
+		\item \href{https://www.saedsayad.com/clustering_kmeans.htm}{https://www.saedsayad.com/clustering\_kmeans.htm}
+		\item Bing Liu, "Web data Mining", Springer, Second Edition, 2007
+	\end{enumerate}
+\end{frame}
 
 \end{document}
