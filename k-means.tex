@@ -15,421 +15,255 @@
 \end{frame}
 
 \section*{Nội dung}
-\begin{frame}\frametitle<presentation>{Nội dung}
-  \tableofcontents
-\end{frame}
+	\begin{frame}\frametitle<presentation>{Nội dung}
+  	\tableofcontents
+	\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Giới thiệu về phân cụm}
-\subsection{Phâm cụm}
+\subsection{Phân cụm}
 \begin{frame}{Phân cụm}		
 	\begin{block}{Phân cụm là gì ?}
-	 Việc tổ chức dữ liệu chưa được gán nhãn (label) vào các nhóm tương tự nhau được gọi là phân cụm \\
-	 Một cụm là một tập hợp các phần tử dữ liệu có sự giống nhau về mặt dữ liệu và sẽ khác với các phần tử dữ liệu ở các cụm khác.
+		\begin{itemize}\small
+	 	\item Việc tổ chức dữ liệu chưa được gán nhãn (label) vào các nhóm tương tự nhau được gọi là phân cụm \\
+	 	\item Một cụm là một tập hợp các phần tử dữ liệu có sự giống nhau về mặt dữ liệu và sẽ khác với các phần tử dữ liệu ở các cụm khác.
+		\end{itemize}
 	 
   \end{block}
 \includegraphics[scale=0.5]{images/clusters.png}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Complexity}
-\begin{frame}{Complexity}
-		
-	\begin{block}{}
-	 	 \begin{itemize}\small
-		 \item Generally, not much interested in time and space complexity for small inputs.
-		 \item Given two algorithms \alert{$A$} and \alert{$B$} for solving problem $P$.
+\subsection{Kỹ thuật phân cụm}
+\begin{frame}{Kỹ thuật phân cụm}	
+	\includegraphics[scale=0.5]{images/cluster-tech.png}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vấn đề \& K-means}
+\subsection{K-means}
+\begin{frame}{Vấn đề}
+	\begin{block} {Khi nào nghĩ đến K-means}
+		\begin{itemize} \small
+			\item Không biết nhãn(label) của điểm dữ liệu
+			\item Mục đích : Phân dữ liệu thành các cụm (cluster) khác nhau sao cho dữ liệu trong một cụm có tính chất giống nhau.
 		\end{itemize}
-  \end{block}	
-	
+	\end{block}
+
+	\begin{block}  {K-means cluster}
+		\begin{itemize} \small
+			\item K-means được đề xuất bởi MacQueen năm 1967
+			\item Giải thuật k-means chia tập dữ liệu thành k cụm (cluster)
+			\begin{itemize}
+				\item Mỗi cluster có một điểm trung tâm , gọi là \alert{$centroid$}
+				\item K được chỉ định bởi nhân viên phân tích dữ liệu (Data analytics)
+			\end{itemize}
+		\end{itemize}
+	\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame} {Giải thật k-means}
+	\begin{block}{Nhập giá trị k, giải thuật k-means sẽ thực thi các bước như sau:}
+		\begin{enumerate}
+				\item Chọn ngẫu nhiên k điểm dữ liệu làm \alert{$centroids$}, điểm trung tâm của cụm dữ liệu.
+				\item Phân mỗi điểm dữ liệu vào cluster có điểm trung tâm (center) gần nó nhất.
+				\item Nếu việc gán dữ liệu vào từng cluster ở bước 2 không thay đổi so với vòng lặp trước nó thì ta dừng thuật toán.
+				\item Cập nhật center cho từng cluster bằng cách lấy lấy trung bình cộng của tất cả các điểm dữ liệu đã được gán vào cluster đó sau bước 2.
+				\item Quay lại bước 2.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+	\begin{block}{Cơ chế của giải thuật K-means có thể tổng quát bằng sơ đồ dưới đây:}
+		\begin{center}
+			\includegraphics[scale=0.4]{images/flowchart.png}
+		\end{center}
+	\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame} {Cách tính khoảng cách và điểm trung tâm}
+	\begin{block} {Cách tính khoảng cách trong giải thuật K-means}
+		% cach tinh khoang cach
+		Để tìm được điểm dữ liệu gần với điểm trung tâm nào nhất thì ta dựa vào giá trị nhỏ nhất của hàm tính khoảng cách Euclidean.
+		\begin{itemize}
+			\item Với dữ liệu 1 chiều, với 2 điểm dữ liệu p và q \\ $\sqrt{p-q}=|p-q|$
+			\item Với dữ liệu 2 chiều, với 2 điểm dữ liệu p (p1,p2) và q (q1, q2) \\ $\sqrt{(p1-q1)^2 + (p2-q2)^2}$
+			\item Với dữ liệu 3 chiều, với 2 dữ liệu p(p1,p2,p3) và q(q1,q2,q3)\\ $\sqrt{(p1-q1)^2 + (p2-q2)^2 + (p3-q3)^2}$
+			\item Với dữ liệu n chiều, với 2 dữ liệu p(p1,p2,...,pn) và q(q1,q2,...,qn) \\ $\sqrt{(p1-q1)^2 + (p2-q2)^2 + ... + (pn-qn)^2}$
+		\end{itemize}
+	\end{block}
+	\begin{block} {Cách tính điểm trung tâm}
+		Điểm trung tâm \alert{$centroid$} của cluster là trung bình cộng của các điểm trong cluster đó.
+	\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Mô phỏng K-means}
+\begin{frame} {Mô phỏng K-means}
+\begin{block}{Chọn ngẫu nhiên các centroid}
 	\begin{center}
-	\small\begin{tabular}{|c|c|c|}
-			\hline
-			Input size & Algorithm A & Algorithm B \\ \hline
-		$n$ & \textcolor{blue}{5000 $n$} & \textcolor{red}{$1.2^n$}\\ \hline
-		$10$ & \textcolor{blue}{50,000} & \textcolor{red}{6}\\ \hline
-		$100$ & \textcolor{blue}{500,000} & \textcolor{red}{2,817,975}\\ \hline
-		$1,000$ & \textcolor{blue}{5,000,000} & \textcolor{red}{$1.5 \times 10^{79}$}\\ \hline
-		$100,000$ & \textcolor{blue}{$5 \times 10^8$} & \textcolor{red}{$1.3 \times 10^{7918}$}\\ \hline
-	\end{tabular}
- \end{center}
-	
-	\begin{block}{}
-	 	 \begin{itemize}\small
-		 \item <2-> \alert{$B$} cannot be used for large inputs, while \alert{$A$} is still feasible.
-		 \item <2-> So what is important is the \alert{growth} of the complexity functions.
-		 \item <2-> Growth of time and space complexity with increasing input size \alert{$n$} is a suitable measure for the comparison of algorithms. 
-		\end{itemize}
-  \end{block}		
+		\includegraphics[scale=0.4]{images/step1.png}
+	\end{center}
+\end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Formulas}
-\begin{frame}{Types of formulas for basic operation count}
-		
-	\begin{block}{}
-	 	 \begin{itemize}\small
-		 \item Exact formulas, e.g., \alert{$C(n) = n(n-1)/2$}.
-		 \item <2-> Formula indicating order of growth with specific multiplicative constant
-            e.g., \alert{$C(n) \approx 0.5 n^2$}.
-		 \item <3-> Formula indicating order of growth with unknown multiplicative constant
-            e.g., \alert{$C(n) \approx c.n^2$}
-		 \item <4-> Most important: Order of growth within a constant multiple as \alert{$n \rightarrow \infty$}
-		\end{itemize}
-  \end{block}	
- \only<5>{	
-	\begin{block}{Asymptotic growth rate}
-	 	 A way of comparing functions that ignores constant factors and small input sizes
-		\begin{itemize}\small
-		 \item \alert{$O(g(n))$}: class of functions \alert{$f(n)$} that grow \alert{no faster than} \alert{$g(n)$}
- 		 \item \alert{$\Theta(g(n))$}: class of functions \alert{$f(n)$} that grow \alert{at the same rate as} \alert{$g(n)$}
-		 \item \alert{$\Omega(g(n))$}: class of functions \alert{$f(n)$} that grow \alert{at least as fast as} \alert{$g(n)$}
-		\end{itemize}
-  \end{block}	
- }
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Complexity classes - a small vocabulary}
-	\begin{block}{}
-	 \begin{itemize}\small
- 		  \item \textcolor{blue}{Constant}: \alert{$O(1)$} (independing on the input size)
-     \item \textcolor{blue}{Sub-linear} or \textcolor{blue}{logarithmic}: \alert{$O(\log n)$}
-     \item \textcolor{blue}{Linear}: \alert{$O(n)$}
-					\item \textcolor{blue}{Quasi-linear}: \alert{$O(n \log n)$}
-					\item \textcolor{blue}{Quadratic}: \alert{$O(n^2)$}
-					\item \textcolor{blue}{Cubic}: \alert{$O(n^3)$}
-     \item \textcolor{blue}{Polynomial}: \alert{$O(n^p)$} (\alert{$O(n^2)$}, \alert{$O(n^3)$}, etc)
-     \item \textcolor{blue}{Quasi-polynomial}: \alert{$O(n^{\log(n)})$}
-     \item \textcolor{blue}{Exponential}: \alert{$O(2^n)$}
-					\item \textcolor{blue}{Factorial}: \alert{$O(n!)$}
-		\end{itemize}
- \end{block}	
-\end{frame}
-
-
-\begin{frame}{Asymptotic upper bound - worst case}
-	
-	\begin{block}{Asymptotic upper bound  ``big O''}\small
-		\textcolor{blue}{$T(n)$ = \alert{$O$}$(f(n))$} \textbf{iif} 
-		\alert{$\exists c \in R^+$}, \alert{$c>0$} and \alert{$\exists n_0 \in N$}, \alert{$n_0>0$} \\
-		such that \alert{$\forall n>n_0$}: \alert{$T(n) \leq c \times f(n) $}
- \end{block}	
-	\pause
-		\begin{block}{Example}\small
-		Let \alert{$T(n) = 2n+3n^3 + 5$}. \alert{$T(n)$} is in \alert{$O(n^3)$} with:
-	 \begin{itemize}
-     \item (\alert{$c=8$} and \alert{$n_0=1$}) or (\alert{$c=5$} and \alert{$n_0=2$})
-		\end{itemize}
- \end{block}	
-	\pause
-	\begin{block}{}\small
-		\textbf{Principle}: \textcolor{blue}{the lower-order terms are negligible.}
- \end{block}		
-\end{frame}
-
-
-\begin{frame}{Asymtotic lower bound - best case}
-	
-	\begin{block}{``big Omega''}\small
-		\textcolor{blue}{$T(n)$ = \alert{$\Omega$}$(f(n))$} \textbf{iif} 
-		\alert{$\exists c \in R^+$}, \alert{$c>0$} and \alert{$\exists n_0 \in N$}, \alert{$n_0>0$}\\
-		such that \alert{$\forall n>n_0$}: \alert{$T(n) \geq c \times f(n) $}
- \end{block}	
-	\pause
-		\begin{block}{Example}\small
-		Let \alert{$T(n) = 2n+3n^3 + 5$}. \alert{$T(n)$} is in \alert{$\Omega(n^3)$} with:
-	 \begin{itemize}
-     \item (\alert{$c=1$} and \alert{$n_0=1$}) 
-		\end{itemize}
- \end{block}	
-\end{frame}
-
-
-\begin{frame}{Asymtotic approximating bound - average case}
-	
-	\begin{block}{``big Theta''}
-  \textcolor{blue}{$T(n)$ = \alert{$\Theta$}$(f(n))$} \textbf{iif}
-		\alert{$\exists c_1, c_2 \in R^+$}, \alert{$c_1>0$}, \alert{$c_2>0$} and \alert{$\exists n_0 \in N$}, \alert{$n_0>0$}\\
-		such that \alert{$\forall n>n_0$}: \alert{$c_1 \times f(n) \leq T(n) \leq c_2 \times f(n) $}
- \end{block}	
-		\pause
-		\begin{block}{Property}\small
-		\alert{$T(n) = O(f(n))$} and \alert{$T(n) = \Omega(f(n))$} $\Longrightarrow$ \alert{$T(n) = \Theta(f(n))$}
- \end{block}	
-	\pause
-	\begin{block}{Example}\small
-		Let \alert{$T(n) = 2n+3n^3 + 5$}. \\
-		So, \alert{$T(n)$} is in \alert{$O(n^3)$} and in \alert{$\Omega(n^3)$}.\\
-		Consequently, \alert{$T(n)$} is in \alert{$\Theta(n^3)$}.
- \end{block}	
+\begin{frame} {Mô phỏng K-means}
+\begin{block}{Xác định cluster cho từng điểm dữ liệu}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/step2.png}
+	\end{center}
+\end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Other properties}
-	
-	\begin{block}{Not transitive}\footnotesize
-	 \begin{itemize}
-     \item $f(n) = n^2$; $g(n)= n$
-		 \item $\Rightarrow f(n) = O(n^2) = g(n)$ but $f(n) \neq g(n)$
+\begin{frame} {Mô phỏng K-means}
+\begin{block}{Xác định lại centroid cho các cluster}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/step3.png}
+	\end{center}
+\end{block}
+\end{frame}
+% Mô phỏng giải thuật k-means bằng hình ảnh
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame} {Mô phỏng K-means}
+\begin{block}{Kết quả của vòng lặp thứ nhất}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/result1.png}
+	\end{center}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame} {Mô phỏng K-means}
+\begin{block}{Vòng lặp thứ 2, xác định lại các điểm centroid}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/ite1.png}
+	\end{center}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame} {Mô phỏng K-means}
+\begin{block}{Kết quả của vòng lặp thứ hai}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/result2.png}
+	\end{center}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ứng dụng}
+\begin{frame}{Ứng dụng phân loại hình ảnh}
+\begin{block} {Examples of visual words}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/demo1.png}
+	\end{center}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Điểm mạnh và điểm yếu}
+\subsection{Điểm mạnh}
+\begin{frame}{Điểm mạnh và điểm yếu}
+\begin{block} {Điểm mạnh}
+	\begin{itemize}
+		\item Đơn giản: Dễ dàng hiểu và thực thi
+		\item Rất hiệu quả: Độ phức tạp chỉ là O(tkn), trong đó: 
+			\begin{itemize}
+				\item k là số cụm
+				\item t là số lần lặp
+			\end{itemize}
+		Vì k và t đều nhỏ nên giải thuật K-mean thuộc giải thuật tuyến tính
 	\end{itemize}
- \end{block}
-\pause
-   \begin{block}{Transitivity}\small				
-			\begin{itemize}\small				
-		   \item $f(n) = O(g(n))$ \& $g(n) = O(h(n))$ $\Rightarrow f(n) = O(h(n))$
-			 \item $f(n) = \Omega(g(n))$ \& $g(n) = \Omega(h(n))$ $\Rightarrow f(n) = \Omega(h(n))$
-			 \item $f(n) = \Theta(g(n))$ \& $g(n) = \Theta(h(n))$ $\Rightarrow f(n) = \Theta(h(n))$
-      \end{itemize}
-   \end{block}
-\pause
-    \begin{block}{Additivity}\small				
-			\begin{itemize}\small				
-		   \item $f(n) = O(h(n))$ \& $g(n) = O(h(n))$ $\Rightarrow f(n) + g(n) = O(h(n))$
-			 \item $f(n) = \Omega(h(n))$ \& $g(n) = \Omega(h(n))$ $\Rightarrow f(n) + g(n) = \Omega(h(n))$
-			 \item $f(n) = \Theta(h(n))$ \& $g(n) = \Theta(h(n))$ $\Rightarrow f(n) + g(n) = \Theta(h(n))$
-      \end{itemize}
-   \end{block}
+	
+\end{block}
+	K-means là một giải thuật phân cụm phổ biến
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Exercise}
-	
-	\begin{block}{}\footnotesize
-	 \begin{itemize}
-     \item <2->\alert{$T(n) = 3 + 5n^2$} $\Rightarrow$ \alert{$T(n) = \Theta(n^2)$} ?
-		 \item <3->if \alert{$T(n) = 
-		    \left\{ \begin{array}{cccc} 
-			    2n + 5 &  if & n & \mbox{ is even }\\
-				  n^2 - n + 1 &  if & n & \mbox{ is odd }\\
-								\end{array} \right.$}, then \alert{$T(n) = O(?)$} and \alert{$T(n) = \Omega(?)$}.
+\subsection{Điểm yếu}
+\begin{frame}{Điểm mạnh và điểm yếu}
+\begin{block} {Điểm yếu}
+	\begin{itemize}
+		\item Người phân tích dữ liệu phải chỉ định số cluster K
+		\item Rất hiệu quả: Độ phức tạp chỉ là O(tkn), trong đó: 
+		\begin{itemize}
+			\item k là số cụm
+			\item t là số lần lặp
 		\end{itemize}
- \end{block}	
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Exercise}
-	
-	\begin{block}{}
-  Compare the asymptotic behaviours of 
-	\begin{enumerate}
-		\item \alert{$2^n$} and \alert{$10^n$}
-		\item \alert{$\log_{2}n$} and \alert{$\log_{10}n$}
-	\end{enumerate}	
- \end{block}
-
-\pause
-
-	\begin{block}{}
-	\begin{enumerate}
-  \item Prove that for any positive functions \alert{$f$} and \alert{$g$}, \alert{$f(n) +g(n)$} and \alert{$max(f(n); g(n))$} are asymptotically equivalent. \\
-	\item Give a (necessary and sufficient) condition on positive functions \alert{$f$} and \alert{$g$} to ensure that \alert{$f(n) +g(n)$} and \alert{$f(n)$} are asymptotically equivalent. 
-	\end{enumerate}
-	\end{block}	
+		Vì k và t đều nhỏ nên giải thuật K-mean thuộc giải thuật tuyến tính
+		\item Giải thuật rất dễ sai với các điểm nhiễu \alert{$outliers$}
+			\begin{itemize}
+			\item Outlier là những điểm dữ liệu quá xa so với các điểm dữ liệu còn lại.
+			\item Outlier có thể xảy ra khi xảy ra lỗi khi ghi dữ liệu hoặc một số điểm dữ liệu đặc biệt với các giá trị rất khác nhau.
+			\end{itemize}
+	\end{itemize}
+\end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Common asymptotic behaviours}
-	\begin{block}{}\footnotesize
-	\begin{tabular}{|c|c|c|c|c|c|c|}
-		\hline
-		Size & \multicolumn{6}{c|}{Approximate computational time}\\ \hline
-		$n$ & $\Theta(\log n)$ & $\Theta(n)$ & $\Theta(n \log n)$ & $\Theta(n^2)$ & $\Theta(2^n)$ & $\Theta(n!)$ \\ \hline
-		$10$ & $3. 10^{-9}$s & $10^{-8}$s & $3. 10^{-8}$s & $10^{-7}$s & $10^{-6}$s & $3. 10^{-3}$s\\
-		$10^2$ & $7. 10^{-9}$s & $10^{-7}$s & $7. 10^{-7}$s & $10^{-5}$s & $4. 10^{13}$y  & * \\
-		$10^3$ & $10^{-8}$s & $10^{-6}$s & $10^{-5}$s & $10^{-3}$s  & * & * \\
-		$10^4$ & $1,3. 10^{-8}$s & $10^{-5}$s & $10^{-4}$s & $10^{-1}$s & * & * \\
-		$10^5$ & $1,7. 10^{-8}$s & $10^{-4}$s & $2. 10^{-3}$s & $10$s & * & * \\
-		$10^6$ & $2. 10^{-8}$s & $10^{-3}$s & $2. 10^{-2}$s & $17$m & * & * \\ \hline
-	\end{tabular}
-  \end{block}
+\begin{frame}{Điểm yếu}
+	\begin{block} {Outliers}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/outlier.png}
+	\end{center}
+	\end{block}
 \end{frame}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Basic methods for asymptotic behaviour analysis}
-\subsection{Counting number of elementary operations}
-\begin{frame}{Example}
-		
-	\begin{block}{}
-	 \begin{enumerate}[1.]\small
-		   \item \only<2->{\textcolor{orange}{(1)}}\textbf{Var} int: \alert{$d=0$} 
-	    \item \only<3->{\textcolor{orange}{($n$)}}\textbf{For} \alert{$i$} from \alert{$1$} to \alert{$n$} \textbf{do}
-				 	\begin{enumerate}[1.]\small
-	      \item \only<4->{\textcolor{orange}{(1)}}\alert{$d$} = \alert{$d + 1$}
-	      \item \only<5->{\textcolor{orange}{(1)}}\alert{$a[i]$} = \alert{$a[i] \times a[i] + d \times d$}
-						\end{enumerate}
-					\item \textbf{Endfor}
-    \end{enumerate}
-  \end{block}	
-		\only<6->{
-		\begin{block}{}
-		 Number of elementary operations: \alert{$1 + n \times ( 1 + 1) = 2n +1$}.
-	 \end{block}	
-		}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Linear loop example}
-  \begin{columns}
-  \begin{column}{0.48\textwidth}
-   \begin{block}{}\small				
-			\begin{enumerate}[1.]\small				
-		   \item \textbf{Var} int: \alert{$i=1$}
-     \item \textbf{While} \alert{$i \leq n$} \textbf{do}
-					 \begin{enumerate}[1.]\small				
-       \item Write ``Bonjour'' 
-							\item \alert{$i = i + 1$}
-						\end{enumerate}
-					\item \textbf{EndWhile}
-			\end{enumerate}
-   \end{block}
-	  \end{column}
-			\pause
-   \begin{column}{0.48\textwidth}
-    \begin{block}{}\small				
-			\begin{enumerate}[1.]\small				
-		   \item \textbf{Var} int: \alert{$i=n$}
-     \item \textbf{While} \alert{$i \geq 1$} \textbf{do}
-					 \begin{enumerate}[1.]\small				
-       \item Write ``Bonjour'' 
-							\item \alert{$i = i - 1$}
-						\end{enumerate}
-					\item \textbf{EndWhile}
-			\end{enumerate}
-   \end{block}
-  \end{column}
-  \end{columns}
-	
-		\only<3->{
-		\begin{block}{}
-		 Number of elementary operations: \alert{$2n+1$}.
-	 \end{block}	
-		}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Logarithmic loop example}
-  \begin{columns}
-  \begin{column}{0.48\textwidth}
-   \begin{block}{}\small				
-			\begin{enumerate}[1.]\small				
-		   \item \textbf{Var} int: \alert{$i=1$}
-     \item \textbf{While} \alert{$i \leq n$} \textbf{do}
-					 \begin{enumerate}[1.]\small				
-       \item Write ``Bonjour'' 
-							\item \alert{$i = i \times 2$}
-						\end{enumerate}
-					\item \textbf{EndWhile}
-			\end{enumerate}
-   \end{block}
-	  \end{column}
-			\pause
-   \begin{column}{0.48\textwidth}
-    \begin{block}{}\small				
-			\begin{enumerate}[1.]\small				
-		   \item \textbf{Var} int: \alert{$i=n$}
-     \item \textbf{While} \alert{$i \geq 1$} \textbf{do}
-					 \begin{enumerate}[1.]\small				
-       \item Write ``Bonjour'' 
-							\item \alert{$i = i / 2$}
-						\end{enumerate}
-					\item \textbf{EndWhile}
-			\end{enumerate}
-   \end{block}
-  \end{column}
-  \end{columns}
-		
-		\only<3->{
-		\begin{block}{}
-		 Number of elementary operations: \alert{$1 + \log_2 (n)$}.
-	 \end{block}	
-		}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Nested loop example}
-   \only<1->{
-			\begin{block}{}\small			
-     \textcolor{blue}{Nb of iterations = nb of iterations of external loop $\times$ nb of iterations of internal loop}
-			\end{block}
-			}
-			\pause
-			\begin{columns}
-  \begin{column}{0.48\textwidth}			
-    \begin{block}{}\small				
-			\begin{enumerate}[1.]\small				
-		   \item \textbf{Var} int: \alert{$i=1$}
-     \item \textbf{While} \alert{$i \leq n$} \textbf{do}
-					 \begin{enumerate}[1.]\small				
-       \item \textbf{Var} int: \alert{$j=1$}
-							\item \textbf{While} \alert{$j \leq n$} \textbf{do}
-					   \begin{enumerate}[1.]\small				
-         \item Write ``Bonjour'' 
-									\item \alert{$j = j \times 3$}
-							 \end{enumerate}
-					  \item \textbf{EndWhile}
-							\item \alert{$i = i + 1$}
-						\end{enumerate}
-					\item \textbf{EndWhile}
-			\end{enumerate}
-   \end{block}
-		 \end{column}
-			\pause
-   \begin{column}{0.48\textwidth}
-		\begin{block}{}
-		 Number of elementary operations: \alert{$1+ n + n \times \log_3 (n)$}.
-	 \end{block}	
-  \end{column}
-  \end{columns}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Exercise}
-	\begin{block}{Function XYZ(array: $a[]$)}\small				
-			\begin{enumerate}[1.]\small				
-		   \item \only<2->{\textcolor{orange}{(1)}}\textbf{Var} int: \alert{$i$}
-     \item \only<3->{\textcolor{orange}{($n$)}}\textbf{For} \alert{$i$} from \alert{$1$} to \alert{$n$} \textbf{do}
-					 \begin{enumerate}[1.]\small				
-       \item \only<4->{\textcolor{orange}{(1)}}\textbf{Var} int: \alert{$t$} = \alert{$a[i]$}
-							\item \only<5->{\textcolor{orange}{(1)}}\textbf{Var} int: \alert{$j$}
-							\item \only<6->{\textcolor{orange}{(?)}}\textbf{For} \alert{$j$} from \alert{$i-1$} to \alert{$0$} \textbf{do}
-							 \begin{enumerate}[1.]\small				
-         \item \only<7->{\textcolor{orange}{(1)}}\alert{$a[j+1]$} = \alert{$a[j]$}
-								\end{enumerate}
-					  \item \textbf{EndFor}
-							\item \only<8->{\textcolor{orange}{(1)}}\alert{$a[j+1]$} = \alert{$t$}
-						\end{enumerate}
-					\item \textbf{EndFor}
-			\end{enumerate}
- \end{block}		
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Homeworks}
-	
-	\begin{block}{}\footnotesize
-	\textcolor{blue}{Give algorithms having number of elementary operations as below.}\\
-	 \begin{itemize}
-     \item \alert{$T_1(n) = 3 + 5n$}
-					\item \alert{$T_2(n) = n \log_2 n$}
-					\item \alert{$T_3(n) = n^3$}
-					\item \alert{$T_4(n) = (3n)!$}
-					\item \alert{$T_5(n) =  \log_2 (3 n) $}
-					\item \alert{$T_6(n) = 2 \log_3 (2 n)$}
-					\item \alert{$T_7(n) = n^2 \log_4 n $}
-					\item \alert{$T_8(n) = \sqrt{n} $}
-					\item \alert{$T_{9}(n) = \sqrt[3]{n^2} $}
-					\item \alert{$T_{10}(n) = 2^n $}
-					\item \alert{$T_{11}(n) = n! $}
+\begin{frame}{Giải quyết Outlier}
+\begin{itemize}
+	\item Xóa một số điểm dữ liệu ở rất xa centroid so với đa số các điểm dữ liệu khác
+	 	\begin{itemize}
+	 		\item Để an toàn, chúng ta có thể theo dõi những điểm oulier này một vài lần lặp rồi mới quyết định loại bỏ chúng hay không.
+	 	\end{itemize}
+	\item Thực hiện lấy mẫu ngẫu nhiên: bằng cách chọn một tập hợp con cảu các điểm dữ liệu , cơ hội lựa chọn một outlier là nhỏ hơn nhiều.
+		\begin{itemize}
+			\item Gán những phần còn lại của các điểm dữ liệu cho các cluster bằng khoảng cách
 		\end{itemize}
- \end{block}	
+\end{itemize}
 \end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Điểm yếu}
+\begin{block} {Sensitivity to initial seeds}
+	\begin{center}
+		\includegraphics[scale=0.4]{images/seed.png}
+	\end{center}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Điểm yếu}
+\begin{block} {Cấu trúc dữ liệu đặc biệt}
+	Giải thuật K-means không phù hợp cho xác định các cụm mà hình không phải là hình elip hay hình cầu
+	\begin{center}
+		\includegraphics[scale=0.4]{images/spec_data.png}
+	\end{center}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tổng kết}
+\begin{frame}{Tổng kết}
+\begin{block} {Tổng kết giải thuật K-means}
+	\begin{itemize}
+		\item Mặc dù có điểm yếu nhưng k-means vẫn là giải thuật phổ biến do tính đơn giản và tính hiệu quả của nó.
+		\item Chưa có bằng chứng nào chứng tỏ giải thuật phân cụm nào là tốt nhất.
+	\end{itemize}
+\end{block}
+\end{frame}
+
+
 
 \end{document}
