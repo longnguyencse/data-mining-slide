@@ -3,7 +3,7 @@
 %\documentclass[slidestop,usepdftitle=false]{beamer}
 
 \input{aa-style.tex}
-\lecture[1]{Elementary analysis}{lecture-text}
+\lecture[Clustering]{K-means based method}{lecture-text}
 
 %\date[]{~~}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -14,32 +14,22 @@
   \maketitle
 \end{frame}
 
-\section*{Contents}
-\begin{frame}\frametitle<presentation>{Contents}
+\section*{Nội dung}
+\begin{frame}\frametitle<presentation>{Nội dung}
   \tableofcontents
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Definition and notations}
-\subsection{Algorithm}
-\begin{frame}{Algorithm}		
-	\begin{block}{What is an algorithm?}
-	 An algorithm is a finite set of precise instructions for performing a computation or for solving a problem.
-  \end{block}	
-\pause
-		
-	\begin{block}{Properties of algorithms}
-	 \begin{itemize}
-		 \item \alert{Input} from a specified set,
-		 \item \alert{Output} from a specified set (solution),
-		 \item \alert{Definiteness} of every step in the computation,
-		 \item \alert{Correctness} of output for every possible input,
-		 \item \alert{Finiteness} of the number of calculation steps,
-		 \item \alert{Effectiveness} of each calculation step and
-		 \item \alert{Generality} for a class of problems.
-   \end{itemize}
-  \end{block}	
+\section{Giới thiệu về phân cụm}
+\subsection{Phâm cụm}
+\begin{frame}{Phân cụm}		
+	\begin{block}{Phân cụm là gì ?}
+	 Việc tổ chức dữ liệu chưa được gán nhãn (label) vào các nhóm tương tự nhau được gọi là phân cụm \\
+	 Một cụm là một tập hợp các phần tử dữ liệu có sự giống nhau về mặt dữ liệu và sẽ khác với các phần tử dữ liệu ở các cụm khác.
+	 
+  \end{block}
+\includegraphics[scale=0.5]{images/clusters.png}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
